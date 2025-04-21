@@ -1,0 +1,11 @@
+( => Open Parenthesis
+1 => Number
+, => Comma
+red => Color
+) => Close Parenthesis
+, => Comma
+( => Open Parenthesis
+10 => Number
+, => Comma
+20 => Number
+) => Close Parenthesis
