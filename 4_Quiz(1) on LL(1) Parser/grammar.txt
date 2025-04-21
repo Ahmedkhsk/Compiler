@@ -1,0 +1,5 @@
+D -> T id L ;
+L -> , id L | e
+T -> int | float | char
+
+
