@@ -1,33 +1,48 @@
-# 📚 LL(1) Parser and Scanner Project
+# 🛠️ Compiler Construction Project (LL(1) Parsing Focus)
 
-This repository contains a collection of educational projects focused on building a **dynamic scanner** and implementing a **Top-Down LL(1) Parser**, along with solving related quizzes.
+This repository contains practical projects and exercises related to **Compiler Construction** concepts, mainly focusing on **Lexical Analysis (Scanner)** and **Syntax Analysis (LL(1) Parsing)**.
 
----
-
-## 📁 Project Structure
-
-| Folder Name                   | Description                                |
-|--------------------------------|--------------------------------------------|
-| `1_Build Scanner`              | Basic implementation to build a scanner.  |
-| `2_Top-down Parser`            | Basic top-down parsing techniques.         |
-| `3_LL(1) Parser`               | Dynamic Scanner and LL(1) Parser implementation. |
-| `4_Quiz(1) on LL(1) Parser`     | Quiz solving related to LL(1) parsing.     |
+It aims to simulate the first stages of a compiler by building core components manually, providing a deep understanding of how a compiler processes source code.
 
 ---
 
-## 🚀 Features
+## 🎯 Topics Covered
 
-- Build a **Lexical Scanner** from scratch.
-- Implement a **Top-Down Parser**.
-- Create a **Dynamic LL(1) Parser**.
-- Solve quizzes to strengthen parsing knowledge.
-- Clean and organized folder structure for easy navigation.
+- **Lexical Analysis**
+  - Building a dynamic scanner to tokenize source code.
+- **Syntax Analysis**
+  - Implementing Top-Down Parsing methods.
+  - Focusing on LL(1) Parsing technique.
+- **Practical Application**
+  - Solving quizzes and exercises related to grammar parsing and table generation.
+
+---
+
+## 📚 Purpose
+
+This project is part of a course assignment for the **Compiler Design** subject.  
+It is designed to strengthen the practical understanding of how compilers are built, specifically focusing on:
+
+- Transition from source code to tokens (Scanner).
+- Checking syntactic correctness of tokens (Parser).
+- Applying parsing strategies like LL(1).
 
 ---
 
 ## 🛠️ Technologies Used
 
-- `C++` (or your project language - update if needed)
-- `Git` for version control
+- C++ (You can replace it with the language you're using)
+- Git for version control
+- Manual construction of parsing tables and grammars
+
+---
+
+## 🚀 How This Helps
+
+By working on this project, you will:
+
+- Understand how programming languages are interpreted and validated.
+- Gain hands-on experience in automata theory, parsing tables, and grammar analysis.
+- Develop a strong foundation for more advanced topics like semantic analysis and code generation.
 
 
