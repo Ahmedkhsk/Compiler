@@ -30,10 +30,4 @@ This repository contains a collection of educational projects focused on buildin
 - `C++` (or your project language - update if needed)
 - `Git` for version control
 
----
 
-## 🧰 Getting Started
-
-Clone the repository:
-```bash
-git clone https://github.com/your-username/your-repo-name.git
