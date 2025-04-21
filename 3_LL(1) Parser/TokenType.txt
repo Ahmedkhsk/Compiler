@@ -1,0 +1,6 @@
+( OpenParenthesis
+) CloseParenthesis
++ OperationPlus
+- OperationMinus
+* OperationMultiply
+/ OperationDivide

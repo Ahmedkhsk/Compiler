@@ -1,0 +1,62 @@
+
+set<string> computeFirst(string symbol)
+{
+    cout << "\n--- computeFirst(\"" << symbol << "\") called ---\n";
+
+    // لو اتحسب قبل كده، نرجعه
+    if (firstSets.count(symbol)) {
+        cout << "FIRST(" << symbol << ") already computed: { ";
+        for (const auto& x : firstSets[symbol]) cout << x << " ";
+        cout << "}\n";
+        return firstSets[symbol];
+    }
+
+    set<string> result;
+
+    // لو الرمز مش موجود في الجرامر → يعني terminal
+    if (Productions.find(symbol) == Productions.end())
+    {
+        cout << symbol << " is a terminal (not found in Productions).\n";
+        result.insert(symbol);
+        return result;
+    }
+
+    cout << "Analyzing rules of " << symbol << "...\n";
+    for (const auto& rule : Productions[symbol])
+    {
+        cout << "  Rule: " << symbol << " -> ";
+        
+        for (const auto& s : rule) cout << s << " ";
+        cout << "\n";
+
+        for (const auto& token : rule)
+        {
+            cout << "    Calling computeFirst(\"" << token << "\")\n";
+            set<string> firstToken = computeFirst(token);
+
+            cout << "    FIRST(" << token << ") = { ";
+            for (const auto& f : firstToken) cout << f << " ";
+            cout << "}\n";
+
+            // أضف العناصر إلى الناتج
+            result.insert(firstToken.begin(), firstToken.end());
+
+            // لو مفيش epsilon → نكسر الحلقة
+            if (firstToken.find("e") == firstToken.end()) {
+                cout << "    'e' not found in FIRST(" << token << "), breaking\n";
+                break;
+            } else {
+                cout << "    'e' found in FIRST(" << token << "), continuing\n";
+            }
+        }
+    }
+
+    firstSets[symbol] = result;
+
+    cout << "Computed FIRST(" << symbol << ") = { ";
+    for (const auto& x : result) cout << x << " ";
+    cout << "}\n";
+
+    return result;
+}
+

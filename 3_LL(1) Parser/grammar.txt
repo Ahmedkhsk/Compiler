@@ -1,0 +1,5 @@
+E -> T A
+A -> + T A | - T A | e
+T -> F B
+B -> * F B | / F B | e
+F -> id | ( E )

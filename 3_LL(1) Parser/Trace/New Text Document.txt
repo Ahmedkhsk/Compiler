@@ -1,0 +1,36 @@
+
+    void buildTable()
+    {
+
+
+        for(const auto& FirstMap : firstSets)
+        {
+            string nonTerminal = FirstMap.first;
+
+            
+            for(auto FirstSets : firstSets[nonTerminal])
+            {
+                for(auto FirstSet : FirstSets)
+                {
+                    if(FirstSet == "e")
+                    {
+                        
+                        for(auto FollowSets : followSets[nonTerminal])
+                        {
+                            for(auto FollowSet : FollowSets)
+                            {
+                                table[nonTerminal][FollowSet] = "e";
+                            }
+                        }
+
+                    }
+                }
+
+            }
+
+
+        }
+
+
+    }
+     

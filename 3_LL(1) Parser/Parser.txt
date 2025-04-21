@@ -1,0 +1,38 @@
+    {
+        ifstream ProductionFile(path);
+        
+        string line;
+        while(getline(ProductionFile,line))
+        {
+            
+            stringstream ss(line);
+            
+            string nonTerminal, arrow ,token;
+            
+            ss >> nonTerminal >>arrow;
+            
+            vector<vector<string>> rules;
+            vector<string> curentRules;
+                
+            while(ss>>token)
+            {
+                if(token=="|")
+                {
+                    rules.push_back(curentRules);
+                    curentRules.clear();
+                }
+                    
+                else 
+                    curentRules.push_back(token);
+            }
+            if(!curentRules.empty())
+            {
+                rules.push_back(curentRules);
+                curentRules.clear();
+            }
+            
+            Productions[nonTerminal] = rules;
+        }
+
+                
+    }
