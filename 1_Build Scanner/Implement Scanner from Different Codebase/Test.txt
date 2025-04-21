@@ -1,0 +1,391 @@
+    //tokenTypes[2] = "Open";
+    //tokenTypes[3] = "Number";
+    //tokenTypes[4] = "Color";
+    //tokenTypes[5] = "Comma";
+    //tokenTypes[6] = "Close";
+
+    //set<string> validColors = { "red", "blue", "green", "yellow" };
+
+    //cout << "Enter your string: ";
+    //string line;
+    //getline(cin, line);
+
+    //stringstream ss(line);
+    //string token;
+
+    //while (ss >> token) {
+    //    int currentState = startState;
+    //    string lexeme = "";
+    //    bool isValid = true;
+
+    //    for (char ch : token) {
+    //        if (transitionFunction.find({ currentState, ch }) != transitionFunction.end()) {
+    //            currentState = transitionFunction[{currentState, ch}];
+    //            lexeme += ch;
+    //        }
+    //        else {
+    //            isValid = false;
+    //            break;
+    //        }
+    //    }
+
+    //    if (isValid && finalStates.at(currentState) != finalStates.end()) {
+    //        if (tokenTypes[currentState] == "Color" && validColors.find(lexeme) == validColors.end()) {
+    //            cout << lexeme << " => Invalid Token" << endl;
+    //        }
+    //        else {
+    //            cout << lexeme << " => " << tokenTypes[currentState] << endl;
+    //        }
+    //    }
+    //    else {
+    //        cout << lexeme << " => Invalid Token" << endl;
+    //    }
+    //}
+
+
+______________________________
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <map>
+#include <set>
+using namespace std;
+
+int main()
+{
+	ifstream inputAplphabet("Alphabet.txt");
+	vector<char> alphabets;
+	char c;
+	while (inputAplphabet>>c)
+	{
+		alphabets.push_back(c);
+	}
+
+	ifstream inputAutomaton("Automaton.txt");
+	int numberOfStates, startState, numberOfFinalStates;
+	vector<int> finalStates;
+
+	inputAutomaton >> numberOfStates >> startState >> numberOfFinalStates;
+	for (int i = 0; i < numberOfFinalStates; i++)
+	{
+		int finals;
+		inputAutomaton >> finals;
+		finalStates.push_back(finals);
+	}
+
+	ifstream inputTransition("Transition.txt");
+	map<pair<int, char>, int> transitionFaunction;
+	int fromState, toState;
+	while (inputTransition >> fromState >> c >> toState)
+	{
+		transitionFaunction[{fromState, c}] = toState;
+	}
+
+	return 0;
+}
+
+انا عاوز بالي موضح في الصوره و الكود 
+انا دلوقتي بعمل اسكانر 
+فعاوز فاينل التوكينز 
+يبقي 
+فيه مثلا 
+(1,red) => ده ياخده من اليوزر
+يقولي 
+( => Open 
+1 => Number
+, => Comma
+red => Color
+) => Close
+
+طيب لو اديته 
+(blue
+( => Open
+blue => Color
+يبقي التوكين الي فات ده فاليد عادي 
+بص ده بقي 
+,flr
+هو هيعمل ايه 
+, => Comma
+flr => inValid token
+ليه بقي عشان دي مش Color متعارف عليه اصلا ولا بتساوي حاجه تانيه
+
+
+
+
+______________________
+
+
+
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <map>
+#include <set>
+#include <sstream>
+using namespace std;
+
+int main() {
+    // 🔹 قراءة الأبجدية
+    ifstream inputAlphabet("Alphabet.txt");
+    set<char> alphabets;
+    char c;
+    while (inputAlphabet >> c) {
+        alphabets.insert(c);
+    }
+
+    // 🔹 قراءة معلومات DFA
+    ifstream inputAutomaton("Automaton.txt");
+    int numberOfStates, startState, numberOfFinalStates;
+    set<int> finalStates;
+
+    inputAutomaton >> numberOfStates >> startState >> numberOfFinalStates;
+    for (int i = 0; i < numberOfFinalStates; i++) {
+        int finalState;
+        inputAutomaton >> finalState;
+        finalStates.insert(finalState);
+    }
+
+    // 🔹 قراءة جدول الانتقالات (Transitions)
+    ifstream inputTransition("Transition.txt");
+    map<pair<int, char>, int> transitionFunction;
+    int fromState, toState;
+    while (inputTransition >> fromState >> c >> toState) {
+        transitionFunction[{fromState, c}] = toState;
+    }
+
+    // 🔹 تعريف التوكنات لكل حالة نهائية
+    map<int, string> tokenTypes;
+    tokenTypes[2] = "Open";
+    tokenTypes[3] = "Number";
+    tokenTypes[4] = "Color";
+    tokenTypes[5] = "Comma";
+    tokenTypes[6] = "Close";
+
+    // 🔹 تعريف قائمة الألوان المسموحة
+    set<string> validColors = {"red", "blue", "green", "yellow"}; // أضف أي ألوان أخرى
+
+    // 🔹 استقبال الإدخال من المستخدم
+    cout << "Enter your string: ";
+    string line;
+    getline(cin, line); // قراءة السطر بالكامل
+
+    stringstream ss(line);
+    string token;
+    
+    // 🔹 تحليل التوكنات
+    while (ss >> token) {
+        int currentState = startState;
+        string lexeme = "";
+        bool isValid = true;
+
+        // 🔹 تحليل التوكن حرفًا بحرف باستخدام DFA
+        for (char ch : token) {
+            if (transitionFunction.find({currentState, ch}) != transitionFunction.end()) {
+                currentState = transitionFunction[{currentState, ch}];
+                lexeme += ch;
+            } else {
+                isValid = false; // لا يوجد انتقال -> توكن غير صالح
+                break;
+            }
+        }
+
+        // 🔹 التحقق مما إذا كان التوكن صحيحًا أم لا
+        if (isValid && finalStates.find(currentState) != finalStates.end()) {
+            if (tokenTypes[currentState] == "Color" && validColors.find(lexeme) == validColors.end()) {
+                cout << lexeme << " => Invalid Token" << endl;
+            } else {
+                cout << lexeme << " => " << tokenTypes[currentState] << endl;
+            }
+        } else {
+            cout << lexeme << " => Invalid Token" << endl;
+        }
+    }
+
+    return 0;
+}
+
+انا عاوز تعديلات علي الكود ده 
+اول حاجه 
+tokenTypes[2] = "Open";  => عاوز رقم 2 ده يبقي ديناميك من finalStates 
+عشان ال finalStates فيها كل الفاينل
+ 
+
+___________________________________
+
+    map<int, string> tokenTypes;
+    for (int i = 0; i < finalStates.size();i++)
+    {
+        string tok , s;
+        s = inputTokenTypes >> tok;
+        tokenTypes[finalStates.at(i)] = s;
+    }  
+Open
+Number
+Color
+Comma
+Close => ده الي مكتوب في الملف 
+s = inputTokenTypes >> tok; => جايبلي ايرور هنا
+
+و ده الكود كله 
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <map>
+#include <set>
+#include <sstream>
+using namespace std;
+
+int main() {
+    ifstream inputAlphabet("Alphabet.txt");
+    vector<char> alphabets;
+    char c;
+    while (inputAlphabet >> c) {
+        alphabets.push_back(c);
+    }
+
+    ifstream inputAutomaton("Automaton.txt");
+    int numberOfStates, startState, numberOfFinalStates;
+    vector<int> finalStates;
+    inputAutomaton >> numberOfStates >> startState >> numberOfFinalStates;
+    for (int i = 0; i < numberOfFinalStates; i++) {
+        int finalState;
+        inputAutomaton >> finalState;
+        finalStates.push_back(finalState);
+    }
+
+    ifstream inputTransition("Transition.txt");
+    map<pair<int, char>, int> transitionFunction;
+    int fromState, toState;
+    while (inputTransition >> fromState >> c >> toState) {
+        transitionFunction[{fromState, c}] = toState;
+    }
+
+    ifstream inputTokenTypes("TokenTypes");
+
+    map<int, string> tokenTypes;
+    for (int i = 0; i < finalStates.size();i++)
+    {
+        string tok , s;
+        s = inputTokenTypes >> tok;
+        tokenTypes[finalStates.at(i)] = s;
+
+    }
+
+
+    return 0;
+}
+
+
+___________________
+
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <map>
+#include <set>
+#include <sstream>
+using namespace std;
+
+int main() {
+    ifstream inputAlphabet("Alphabet.txt");
+    vector<char> alphabets;
+    char c;
+    while (inputAlphabet >> c) {
+        alphabets.push_back(c);
+    }
+
+    ifstream inputAutomaton("Automaton.txt");
+    int numberOfStates, startState, numberOfFinalStates;
+    vector<int> finalStates;
+    inputAutomaton >> numberOfStates >> startState >> numberOfFinalStates;
+    for (int i = 0; i < numberOfFinalStates; i++) {
+        int finalState;
+        inputAutomaton >> finalState;
+        finalStates.push_back(finalState);
+    }
+
+    ifstream inputTransition("Transition.txt");
+    map<pair<int, char>, int> transitionFunction;
+    int fromState, toState;
+    while (inputTransition >> fromState >> c >> toState) {
+        transitionFunction[{fromState, c}] = toState;
+    }
+
+    ifstream inputTokenTypes("TokenTypes.txt");
+
+    map<int, string> tokenTypes;
+    int index = 0;
+    string s;
+
+    while (getline(inputTokenTypes, s) && index < finalStates.size()) {
+        tokenTypes[finalStates[index]] = s;
+        index++;
+    }
+    
+    ifstream inputValidColor("ValidColors.txt");
+    
+    vector<string> ValidColors;
+    while (getline(inputValidColor,s))
+    {
+        ValidColors.push_back(s);
+    }
+    
+    ofstream outputToken("Tokens.txt");
+    string line;
+    cout << "Entre Input: ";
+
+    getline(cin, line);
+    vector<char> inputUser(line.begin(), line.end());
+    
+    for (const auto& item : inputUser)
+    {
+        string buffer = "";
+        int curentState = startState;
+
+        if (item == alphabets[0])
+        {
+            outputToken << alphabets[0] << " => " << tokenTypes[2] << endl;
+        } 
+        else if(item == alphabets[1])
+        {
+            outputToken << alphabets[1] << " => " << tokenTypes[6] << endl;
+        }
+        else if (item == alphabets[2])
+        {
+            outputToken << alphabets[2] << " => " << tokenTypes[5] << endl;
+        }
+        else if (isdigit(item))
+        {
+
+        }
+    }
+
+    return 0;
+}
+
+انا عاوز اهندل الكود ده انه يتعامل مع ال Digits 
+و يشوف الرقم كله ويكتب في 
+outputToken  Number 
+و يجبها من الفايل بتاعها بال index 
+الخاص بيها 
+و يتعامل مع الحروف 
+ويتشيك علي الكلكخ بعد ما تتجمع انها من ValidColor 
+ولا لا
+
+
+عاوزك تتعامل مع الفيكتور بس 
+وعاوزك تعمل حسابك ان هو لو بقي
+(red,fr,1)
+( => Open
+red => 
+, => Comma
+fr => Invalid Token
+, => Comma
+1 => Number 
+) => Close
+وهتلاقي كل الداتا في الفايلات 
+
+

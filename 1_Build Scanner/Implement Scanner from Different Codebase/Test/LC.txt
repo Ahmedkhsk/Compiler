@@ -1,0 +1,92 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <map>
+#include <set>
+#include <sstream>
+using namespace std;
+
+int main() {
+    
+    ifstream inputAlphabet("Alphabet.txt");
+    vector<char> alphabets;
+    char c;
+    while (inputAlphabet >> c) {
+        alphabets.push_back(c);
+    }
+
+    ifstream inputTokenTypes("TokenTypes.txt");
+    vector<string> tokenTypes;
+    string s;
+    while (getline(inputTokenTypes, s)) {
+        tokenTypes.push_back(s);
+    }
+
+    ifstream inputValidColor("ValidColors.txt");
+    set<string> validColors;
+    while (getline(inputValidColor, s)) {
+        validColors.insert(s);
+    }
+
+    ofstream outputToken("Tokens.txt");
+    string line;
+    cout << "Enter Input: ";
+    getline(cin, line);
+
+    vector<string> tokens;  
+    string buffer = "";
+
+    for (char ch : line) {
+        if (isalnum(ch)) {
+            buffer += ch;
+        }
+        else {
+            if (!buffer.empty()) {
+                tokens.push_back(buffer);
+                buffer.clear();
+            }
+            if (!isspace(ch)) {
+                tokens.push_back(string(1, ch)); 
+            }
+        }
+    }
+    if (!buffer.empty()) {
+        tokens.push_back(buffer);
+    }
+
+
+    for (const string& token : tokens) {
+        if (token == string(1, alphabets[0])) { // (
+            outputToken << token << " => " << tokenTypes[0] << endl; // Open
+        }
+        else if (token == string(1, alphabets[1])) { // )
+            outputToken << token << " => " << tokenTypes[4] << endl; // Close
+        }
+        else if (token == string(1, alphabets[2])) { // ,
+            outputToken << token << " => " << tokenTypes[3] << endl; // Comma
+        }
+        else if (validColors.find(token) != validColors.end()) {
+            outputToken << token << " => " << tokenTypes[2] << endl; // Color
+        }
+        else if (isdigit(token[0])) {
+            bool isNumber = true;
+            for (char ch : token) {
+                if (!isdigit(ch)) {
+                    isNumber = false;
+                    break;
+                }
+            }
+            if (isNumber) {
+                outputToken << token << " => " << tokenTypes[1] << endl; // Number
+            }
+            else {
+                outputToken << token << " => Invalid Token" << endl;
+            }
+        }
+        else {
+            outputToken << token << " => Invalid Token" << endl;
+        }
+    }
+
+    return 0;
+}

@@ -1,0 +1,115 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <map>
+#include <set>
+#include <sstream>
+using namespace std;
+
+// دالة لتحميل البيانات من الملفات
+void loadAlphabet(set<char> &alphabets) {
+    ifstream inputAlphabet("Alphabet.txt");
+    char c;
+    while (inputAlphabet >> c) {
+        alphabets.insert(c);
+    }
+}
+
+void loadAutomaton(int &numberOfStates, int &startState, set<int> &finalStates) {
+    ifstream inputAutomaton("Automaton.txt");
+    int numberOfFinalStates, state;
+    
+    inputAutomaton >> numberOfStates >> startState >> numberOfFinalStates;
+    for (int i = 0; i < numberOfFinalStates; i++) {
+        inputAutomaton >> state;
+        finalStates.insert(state);
+    }
+}
+
+void loadTransitions(map<pair<int, char>, int> &transitionFunction) {
+    ifstream inputTransition("Transition.txt");
+    int fromState, toState;
+    char c;
+    
+    while (inputTransition >> fromState >> c >> toState) {
+        transitionFunction[{fromState, c}] = toState;
+    }
+}
+
+void loadTokenConfig(map<int, string> &tokenTypes, set<string> &validColors) {
+    ifstream inputTokens("TokensConfig.txt");
+    int state;
+    string tokenType, line, color;
+    
+    while (inputTokens >> state >> tokenType) {
+        tokenTypes[state] = tokenType;
+    }
+
+    // قراءة الألوان المسموحة
+    getline(inputTokens, line); // تخطي السطر الفارغ
+    getline(inputTokens, line); // قراءة سطر الألوان
+    stringstream ss(line.substr(8)); // إزالة "Colors: " من البداية
+    while (ss >> color) {
+        validColors.insert(color);
+    }
+}
+
+// دالة تحليل الإدخال
+void analyzeInput(const string &input, int startState, const map<pair<int, char>, int> &transitionFunction, 
+                  const set<int> &finalStates, const map<int, string> &tokenTypes, const set<string> &validColors) {
+    stringstream ss(input);
+    string token;
+
+    while (ss >> token) {
+        int currentState = startState;
+        string lexeme = "";
+        bool isValid = true;
+
+        // تحليل التوكن حرفًا بحرف باستخدام DFA
+        for (char ch : token) {
+            if (transitionFunction.find({currentState, ch}) != transitionFunction.end()) {
+                currentState = transitionFunction.at({currentState, ch});
+                lexeme += ch;
+            } else {
+                isValid = false;
+                break;
+            }
+        }
+
+        // التحقق من صحة التوكن
+        if (isValid && finalStates.find(currentState) != finalStates.end()) {
+            if (tokenTypes.at(currentState) == "Color" && validColors.find(lexeme) == validColors.end()) {
+                cout << lexeme << " => Invalid Token" << endl;
+            } else {
+                cout << lexeme << " => " << tokenTypes.at(currentState) << endl;
+            }
+        } else {
+            cout << lexeme << " => Invalid Token" << endl;
+        }
+    }
+}
+
+int main() {
+    set<char> alphabets;
+    int numberOfStates, startState;
+    set<int> finalStates;
+    map<pair<int, char>, int> transitionFunction;
+    map<int, string> tokenTypes;
+    set<string> validColors;
+
+    // تحميل البيانات من الملفات
+    loadAlphabet(alphabets);
+    loadAutomaton(numberOfStates, startState, finalStates);
+    loadTransitions(transitionFunction);
+    loadTokenConfig(tokenTypes, validColors);
+
+    // استقبال الإدخال من المستخدم
+    cout << "Enter your string: ";
+    string input;
+    getline(cin, input);
+
+    // تحليل الإدخال
+    analyzeInput(input, startState, transitionFunction, finalStates, tokenTypes, validColors);
+
+    return 0;
+}

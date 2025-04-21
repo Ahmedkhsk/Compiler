@@ -1,0 +1,6 @@
+red - Color
+( - Open
+) - Close
+, - Comma
+t - Invalid_Token
+, - Comma

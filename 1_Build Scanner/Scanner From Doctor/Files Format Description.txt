@@ -1,0 +1,86 @@
+they are separated in three files,
+one for all the states
+second one for transition table
+third is for final state 
+
+
+//Transition Table
+State input NextState
+q0 ( q1
+q0 ) q2
+q0 , q3
+//for digits
+q0 0 q4
+q0 1 q4
+q0 2 q4
+q0 3 q4
+q0 4 q4
+q0 5 q4
+q0 6 q4
+q0 7 q4
+q0 8 q4
+q0 9 q4
+
+q4 0 q4
+q4 1 q4
+q4 2 q4
+q4 3 q4
+q4 4 q4
+q4 5 q4
+q4 6 q4
+q4 7 q4
+q4 8 q4
+q4 9 q4
+
+//red
+q0 r q5
+q5 e q6
+q6 d q7
+
+//green
+q0 g q8
+q8 r q9
+q9 e q10
+q10 e q11
+q11 n q12
+
+//blue
+q0 b q13
+q13 l q14
+q14 u q15
+q15 e q16
+
+//white
+q0 w q17
+q17 h q18
+q18 i q19
+q19 t q20
+q20 e q21
+
+//yellow
+q0 y q22
+q22 e q23
+q23 l q24
+q24 l q25
+q25 o q26
+q26 w q27
+
+
+//States format
+q0 q1 q2 q3 q4 q5 q6 q7 q8 q9 q10 q11 q12 q13 q14 q15 q16 q17 q18 q19 q20 q21 q22 q23 q24 q25 q26 q27 // all states in first line
+q0 //start state in second line
+q1 q2 q3 q4 q7 q12 q16 q21 q27  // final state in third line
+q_err               //error state in fourth line
+
+
+FinalStates and their corresponding Tokens
+FinalState Token
+q1 OPEN_PARENTHESIS
+q2 CLOSE_PARENTHESIS
+q3 COMMA
+q4 NUMBER
+q7 COLOR_RED
+q12 COLOR_GREEN
+q16 COLOR_BLUE
+q21 COLOR_WHITE
+q27 COLOR_YELLOW
