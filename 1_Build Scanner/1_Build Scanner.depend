@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1745272390 source:e:\1-second term\comp 304 (compiler)\sheets\1_build scanner\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<string>
+	<sstream>
+	<algorithm>
+	<unordered_map>
+
