@@ -397,7 +397,6 @@ public:
         {
             cout << "Input is syntactically correct\n";
             return;
-
         }
         else
         {

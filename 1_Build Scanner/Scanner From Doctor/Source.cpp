@@ -13,6 +13,7 @@ class DFA
 	map<pair<string, char>, string> TransitionTable;
 	set<string> FinalStates;
 	set<string> States;
+  
 	public :
 	string StartState;
 	string ErrorState;
