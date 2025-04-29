@@ -151,7 +151,7 @@ public:
 
 int main()
 {
-        DFA dfa;
+    DFA dfa;
     dfa.readInput("input.txt");
     dfa.readStates("states.txt");
     dfa.readTransitionTable("transition function.txt");
