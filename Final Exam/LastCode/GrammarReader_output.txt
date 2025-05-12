@@ -1,0 +1,14 @@
+Original Grammar:
+A -> a A | e
+B -> b B | e
+C -> c
+D -> e
+S -> A B C | D
+
+Nullable symbols identified: [ A B D S ]
+
+Final Grammar (after epsilon elimination):
+A -> a | a A
+B -> b | b B
+C -> c
+S -> A B C | A C | B C | C | D | e
