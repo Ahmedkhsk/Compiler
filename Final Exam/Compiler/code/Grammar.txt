@@ -1,0 +1,5 @@
+S → ABC | D
+A → a A | e
+B → b B | e
+C → c
+D → e

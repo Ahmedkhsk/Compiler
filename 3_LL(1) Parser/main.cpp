@@ -473,14 +473,12 @@ public:
 
     void printParsingTable()
     {
-        // تجميع كل الـ terminals من الجدول
         set<string> terminals;
         for (auto &entry : table)
         {
             terminals.insert(entry.first.second);
         }
 
-        // طباعة العنوان
         cout << "Parsing Table:\n";
         cout << setw(12) << left << "NT\\T";
 
@@ -490,7 +488,6 @@ public:
 
         cout << string(12 + 12 * terminals.size(), '-') << "\n";
 
-        // طباعة الصفوف
         for (const auto &nonTerminal : Productions)
         {
             cout << setw(12) << left << nonTerminal.first;

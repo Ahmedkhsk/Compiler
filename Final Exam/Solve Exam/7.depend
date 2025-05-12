@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1747026444 source:c:\users\erthpc31\desktop\7\main.cpp
+	<bits/stdc++.h>
+	"utils.h"
+
+1747066827 c:\users\erthpc31\desktop\7\utils.h
+	<string>
+	<vector>
+	<cctype>
+
+1746993760 source:d:\7\main.cpp
+	<bits/stdc++.h>
+	"utils.h"
+
+1747030828 d:\7\utils.h
+	<string>
+	<vector>
+	<cctype>
+
